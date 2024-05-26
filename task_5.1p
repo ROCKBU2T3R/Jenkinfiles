@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+    environment {
+        DIRECTORY_PATH = "Project Path"
+        TESTING_ENVIRONMENT = "TEST ENV."
+        PRODUCTION_ENVIRONMENT = "PROD ENV."
+    }
+    stages {
+        stage('Build Step 1') {
+            steps {
+                bat 'echo "Hello World"'
+                bat '''
+                echo "fetch the source code from the directory path %DIRECTORY_PATH% specified by the environment variable"
+                '''
+            }
+        }
+        stage('Build Step 2') {
+            steps {
+                bat '''
+                echo "compile the code and generate any necessary artifacts"
+                '''
+            }
+        }
+        stage('Test') {
+            steps {
+                bat '''
+                echo "unit tests"
+                echo "integration tests"
+                '''
+            }
+        }
+        stage('Code Quality Check') {
+            steps {
+                bat '''
+                echo "check the quality of the code"
+                '''
+            }
+        }
+        stage('Deploy') {
+            steps {
+                bat '''
+                echo "deploy the application to a testing environment specified by the environment variable"
+                '''
+            }
+        }
+        stage('Approval') {
+            steps {
+                bat '''
+                echo "Waiting for approval by manager"
+                ping 127.0.0.1 -n 1 -w 10 >nul
+                '''
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                bat '''
+                echo "deploy the application to the production environment specified by the environment variable"
+                '''
+            }
+        }
+    }
+}
